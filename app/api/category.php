@@ -25,4 +25,25 @@ try{
 }
 });
 
-//$app->run();
+// get Single cat
+
+$app->get('/api/categories/{id}',function(Request $request, Response $response, array $args){
+    $id = $request->getAttribute('id');
+    $sql = "SELECT * FROM category where id = '{$id}'";
+
+ try{
+    //Get db objet 
+        $db = new DB;
+      $db = $db->connection();
+    $stmt = $db->query($sql);
+    $cat_by_id = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $db = null;
+
+     echo json_encode($cat_by_id);
+
+}catch(PDOException $e){
+    echo json_encode($e->getMessage());
+}   
+
+
+});
