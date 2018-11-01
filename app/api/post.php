@@ -8,7 +8,21 @@ $app = new \Slim\App;
 
 // get all Posts
 $app->get('/api/posts',function(Request $request, Response $response, array $args){
-echo 'POSTS';
+$sql = "SELECT * FROM posts";
+
+try{
+    //Get db objet 
+    $db = new DB;
+   $db = $db->connection();
+    $stmt = $db->query($sql);
+    $posts = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $db = null;
+
+     echo json_encode($posts);
+
+}catch(PDOException $e){
+    echo json_encode($e->getMessage());
+}
 });
 
 //$app->run();

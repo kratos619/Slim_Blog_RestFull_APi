@@ -15,7 +15,7 @@ class DB
 
         $db_connection = new PDO($mysql_connection_string, $this->db_user,$this->db_pass);
 
-        $db_connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRORMODE_EXCEPTION);
+        $db_connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         return $db_connection;
     }
 
