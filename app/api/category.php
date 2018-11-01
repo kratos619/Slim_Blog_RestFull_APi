@@ -34,16 +34,40 @@ $app->get('/api/categories/{id}',function(Request $request, Response $response, 
  try{
     //Get db objet 
         $db = new DB;
-      $db = $db->connection();
-    $stmt = $db->query($sql);
-    $cat_by_id = $stmt->fetchAll(PDO::FETCH_OBJ);
-    $db = null;
+        $db = $db->connection();
+        $stmt = $db->query($sql);
+        $cat_by_id = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
 
-     echo json_encode($cat_by_id);
+        echo json_encode($cat_by_id);
 
 }catch(PDOException $e){
     echo json_encode($e->getMessage());
 }   
+});
 
+// insert all data
 
+// add Categories
+$app->post('/api/categories/add',function(Request $request, Response $response, array $args){
+    $cat_name = $request->getParam('cat_name');
+    // $cat_id = $request->getParam('cat_id');
+    // $body = $request->getParam('body');
+
+    $sql = "INSERT INTO category (cat_name) values (:cat_name)";
+
+    try{
+    //Get db objet 
+        $db = new DB;
+        $db = $db->connection();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindParam(':cat_name',$cat_name);
+        $stmt->execute();
+        
+        return json_encode("Category Successfully added");
+        
+    }catch(PDOException $e){
+            echo json_encode($e->getMessage());
+    }
 });
