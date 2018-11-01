@@ -106,3 +106,29 @@ $app->put('/api/posts/update/{id}',function(Request $request, Response $response
              print_r($stmt);
     }
 });
+
+// delete post
+
+$app->delete('/api/posts/delete/{id}',function(Request $request, Response $response){
+
+     // grab id
+    $id = $request->getAttribute('id');
+   
+    
+$sql = "DELETE FROM posts WHERE id = '{$id}'";
+
+    try{
+    //Get db objet 
+        $db = new DB;
+        $db = $db->connection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        
+        echo  json_encode("Post Successfully Delete ");
+           //print_r($stmt);
+    }catch(PDOException $e){
+             echo $e->getMessage();
+             print_r($stmt);
+    }
+
+});
