@@ -6,6 +6,16 @@ use \Psr\Http\Message\ResponseInterface as Response;
 require '../vendor/autoload.php';
 
 $app = new \Slim\App;
+  $app->add(new Tuupola\Middleware\CorsMiddleware);
+  
+  $app->add(new Tuupola\Middleware\CorsMiddleware([
+    "origin" => ["Access-Control-Allow-Origin:","*"],
+    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE","post"],
+    "headers.allow" => [],
+    "headers.expose" => [],
+    "credentials" => false,
+    "cache" => 0,
+]));
 
 $_SERVER['REQUEST_URI_PATH'] = parse_url($_SERVER['REQUEST_URI'] ,PHP_URL_PATH);
 $segmets = explode("/",$_SERVER['REQUEST_URI_PATH']);

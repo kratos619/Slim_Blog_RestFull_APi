@@ -5,10 +5,21 @@ use \Psr\Http\Message\ResponseInterface as Response;
 require '../vendor/autoload.php';
 
 $app = new \Slim\App;
+  $app->add(new Tuupola\Middleware\CorsMiddleware);
+  
+  $app->add(new Tuupola\Middleware\CorsMiddleware([
+    "origin" => ["*"],
+    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE","post"],
+    "headers.allow" => ["content-type" ,"*"],
+    "headers.expose" => [],
+    "credentials" => false,
+    "cache" => 0,
+]));
 
 // get all Posts
 $app->get('/api/posts',function(Request $request, Response $response, array $args){
-$sql = "SELECT * FROM posts";
+$sql = "SELECT * FROM posts order by created_at DESC";
+
 
 try{
     //Get db objet 
